@@ -438,3 +438,4 @@ namespace Microsoft.DotNet.Cli.Build
         }
     }
 }
+
