@@ -7,6 +7,8 @@ using Microsoft.DotNet.TestFramework;
 using Microsoft.DotNet.Tools.Test.Utilities;
 using Xunit;
 
+using LocalizableStrings = Microsoft.DotNet.Tools.Run.LocalizableStrings;
+
 namespace Microsoft.DotNet.Cli.Run.Tests
 {
     public class GivenDotnetRunBuildsCsproj : TestBase
@@ -68,9 +70,28 @@ namespace Microsoft.DotNet.Cli.Run.Tests
 
             new RunCommand()
                 .WithWorkingDirectory(projectDirectory)
-                .ExecuteWithCapturedOutput("--framework netcoreapp2.0")
+                .ExecuteWithCapturedOutput("--framework netcoreapp2.1")
                 .Should().Pass()
                          .And.HaveStdOutContaining("This string came from the test library!");
+        }
+
+        [Fact]
+        public void ItDoesNotImplicitlyBuildAProjectWhenRunningWithTheNoBuildOption()
+        {
+            var testAppName = "MSBuildTestApp";
+            var testInstance = TestAssets.Get(testAppName)
+                            .CreateInstance()
+                            .WithSourceFiles();
+
+            var result = new RunCommand()
+                .WithWorkingDirectory(testInstance.Root.FullName)
+                .ExecuteWithCapturedOutput("--no-build -v:m");
+
+            result.Should().Fail();
+            if (!DotnetUnderTest.IsLocalized())
+            {
+                result.Should().NotHaveStdOutContaining("Restore");
+            }
         }
 
         [Fact]
@@ -129,9 +150,9 @@ namespace Microsoft.DotNet.Cli.Run.Tests
 
             new RunCommand()
                 .WithWorkingDirectory(testProjectDirectory)
-                .ExecuteWithCapturedOutput("--framework netcoreapp2.0")
+                .ExecuteWithCapturedOutput("--framework netcoreapp2.1")
                 .Should().Pass()
-                         .And.HaveStdOutContaining("Hello World!");
+                         .And.HaveStdOut("Hello World!");
         }
 
         [Fact]
@@ -280,7 +301,7 @@ namespace Microsoft.DotNet.Cli.Run.Tests
                 .ExecuteWithCapturedOutput("--launch-profile test")
                 .Should().Pass()
                          .And.HaveStdOutContaining("Hello World!")
-                         .And.HaveStdErrContaining("The specified launch profile could not be located.");
+                         .And.HaveStdErrContaining(LocalizableStrings.RunCommandExceptionCouldNotLocateALaunchSettingsFile);
         }
 
         [Fact]
@@ -368,7 +389,7 @@ namespace Microsoft.DotNet.Cli.Run.Tests
                 .ExecuteWithCapturedOutput("--launch-profile Third")
                 .Should().Pass()
                          .And.HaveStdOutContaining("(NO MESSAGE)")
-                         .And.HaveStdErrContaining("The launch profile \"Third\" could not be applied.");
+                         .And.HaveStdErrContaining(string.Format(LocalizableStrings.RunCommandExceptionCouldNotApplyLaunchSettings, "Third", "").Trim());
         }
 
         [Fact]
@@ -396,7 +417,7 @@ namespace Microsoft.DotNet.Cli.Run.Tests
                 .ExecuteWithCapturedOutput("--launch-profile \"IIS Express\"")
                 .Should().Pass()
                          .And.HaveStdOutContaining("(NO MESSAGE)")
-                         .And.HaveStdErrContaining("The launch profile \"IIS Express\" could not be applied.");
+                         .And.HaveStdErrContaining(string.Format(LocalizableStrings.RunCommandExceptionCouldNotApplyLaunchSettings, "IIS Express", "").Trim());
         }
 
         [Fact]
@@ -485,7 +506,7 @@ namespace Microsoft.DotNet.Cli.Run.Tests
 
             cmd.Should().Pass()
                 .And.HaveStdOutContaining("(NO MESSAGE)")
-                .And.HaveStdErrContaining("The launch profile \"(Default)\" could not be applied.");
+                .And.HaveStdErrContaining(string.Format(LocalizableStrings.RunCommandExceptionCouldNotApplyLaunchSettings, LocalizableStrings.DefaultLaunchProfileDisplayName, "").Trim());
         }
 
         [Fact]
@@ -514,7 +535,29 @@ namespace Microsoft.DotNet.Cli.Run.Tests
 
             cmd.Should().Pass()
                 .And.HaveStdOutContaining("(NO MESSAGE)")
-                .And.HaveStdErrContaining("The launch profile \"(Default)\" could not be applied.");
+                .And.HaveStdErrContaining(string.Format(LocalizableStrings.RunCommandExceptionCouldNotApplyLaunchSettings, LocalizableStrings.DefaultLaunchProfileDisplayName, "").Trim());
+        }
+
+        [Fact]
+        public void ItRunsWithTheSpecifiedVerbosity()
+        {
+            var testAppName = "MSBuildTestApp";
+            var testInstance = TestAssets.Get(testAppName)
+                            .CreateInstance()
+                            .WithSourceFiles();
+
+            var result = new RunCommand()
+                .WithWorkingDirectory( testInstance.Root.FullName)
+                .ExecuteWithCapturedOutput("-v:n");
+
+            result.Should().Pass()
+                .And.HaveStdOutContaining("Hello World!");
+
+            if (!DotnetUnderTest.IsLocalized())
+            {
+                result.Should().HaveStdOutContaining("Restore")
+                    .And.HaveStdOutContaining("CoreCompile");
+            }
         }
     }
 }

@@ -39,7 +39,7 @@
       </trans-unit>
       <trans-unit id="HelpDefinition">
         <source>Show help.</source>
-        <target state="needs-review-translation">Показать справку</target>
+        <target state="translated">Показать справку.</target>
         <note />
       </trans-unit>
       <trans-unit id="HostOptions">
@@ -243,8 +243,13 @@
         <note />
       </trans-unit>
       <trans-unit id="AdditionalDeps">
-        <source>Path to additonal deps.json file.</source>
+        <source>Path to additional deps.json file.</source>
         <target state="translated">Путь к дополнительному файлу deps.json.</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="StoreDefinition">
+        <source>Stores the specified assemblies in the runtime store.</source>
+        <target state="translated">Он сохраняет указанные сборки в хранилище среды выполнения.</target>
         <note />
       </trans-unit>
     </body>

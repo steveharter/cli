@@ -97,11 +97,6 @@
         <target state="translated">Applicazione</target>
         <note />
       </trans-unit>
-      <trans-unit id="ReferenceDoesNotExist">
-        <source>Reference {0} does not exist.</source>
-        <target state="translated">Il riferimento {0} non esiste.</target>
-        <note />
-      </trans-unit>
       <trans-unit id="ReferenceAddedToTheProject">
         <source>Reference `{0}` added to the project.</source>
         <target state="translated">Il riferimento `{0}` è stato aggiunto al progetto.</target>
@@ -479,7 +474,7 @@
       </trans-unit>
       <trans-unit id="NoReferencesFound">
         <source>There are no {0} references in project {1}. ;; {0} is the type of the item being requested (project, package, p2p) and {1} is the object operated on (a project file or a solution file). </source>
-        <target state="translated">Non ci sono riferimenti a {0} nel progetto {1}. ;; {0} è il tipo dell'elemento richiesto (progetto, pacchetto o P2P) e {1} è l'oggetto su cui si interviene (file di progetto o di soluzione).</target>
+        <target state="translated">Non ci sono riferimenti a {0} nel progetto {1}. ;; {0} è il tipo dell'elemento richiesto (progetto, pacchetto o P2P) e {1} è l'oggetto su cui si interviene (file di progetto o di soluzione). </target>
         <note />
       </trans-unit>
       <trans-unit id="NoProjectsFound">
@@ -671,7 +666,12 @@
       </trans-unit>
       <trans-unit id="NoRestoreDescription">
         <source>Does not do an implicit restore when executing the command.</source>
-        <target state="new">Does not do an implicit restore when executing the command.</target>
+        <target state="translated">Non esegue un ripristino implicito durante l'esecuzione del comando.</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="ProjectRemovedFromTheSolution">
+        <source>Project `{0}` removed from the solution.</source>
+        <target state="new">Project `{0}` removed from the solution.</target>
         <note />
       </trans-unit>
     </body>

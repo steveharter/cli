@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Microsoft.DotNet.Cli;
+using Microsoft.DotNet.Cli.Telemetry;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.DotNet.Configurer;
 using Microsoft.DotNet.Tools.MSBuild;
@@ -31,7 +32,7 @@ namespace Microsoft.DotNet.Tools.New
             var sessionId =
                 Environment.GetEnvironmentVariable(MSBuildForwardingApp.TelemetrySessionIdEnvironmentVariableName);
             var telemetry =
-                new Telemetry(new FirstTimeUseNoticeSentinel(new CliFallbackFolderPathCalculator()), sessionId);
+                new Telemetry(new FirstTimeUseNoticeSentinel(new CliFolderPathCalculator()), sessionId);
             var logger = new TelemetryLogger(null);
 
             if (telemetry.Enabled)
@@ -40,7 +41,7 @@ namespace Microsoft.DotNet.Tools.New
                 {
                     if (telemetry.Enabled)
                     {
-                        telemetry.TrackEvent(name, props, measures);
+                        telemetry.TrackEvent($"template/{name}", props, measures);
                     }
                 });
             }

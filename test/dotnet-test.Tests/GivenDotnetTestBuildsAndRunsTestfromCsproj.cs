@@ -28,8 +28,8 @@ namespace Microsoft.DotNet.Cli.Test.Tests
             if (!DotnetUnderTest.IsLocalized())
             {
                 result.StdOut.Should().Contain("Total tests: 2. Passed: 1. Failed: 1. Skipped: 0.");
-                result.StdOut.Should().Contain("Passed   TestNamespace.VSTestTests.VSTestPassTest");
-                result.StdOut.Should().Contain("Failed   TestNamespace.VSTestTests.VSTestFailTest");
+                result.StdOut.Should().Contain("Passed   VSTestPassTest");
+                result.StdOut.Should().Contain("Failed   VSTestFailTest");
             }
 
             result.ExitCode.Should().Be(1);
@@ -52,8 +52,8 @@ namespace Microsoft.DotNet.Cli.Test.Tests
             if (!DotnetUnderTest.IsLocalized())
             {
                 result.StdOut.Should().Contain("Total tests: 2. Passed: 1. Failed: 1. Skipped: 0.");
-                result.StdOut.Should().Contain("Passed   TestNamespace.VSTestTests.VSTestPassTest");
-                result.StdOut.Should().Contain("Failed   TestNamespace.VSTestTests.VSTestFailTest");
+                result.StdOut.Should().Contain("Passed   VSTestPassTest");
+                result.StdOut.Should().Contain("Failed   VSTestFailTest");
             }
 
             result.ExitCode.Should().Be(1);
@@ -117,17 +117,18 @@ namespace Microsoft.DotNet.Cli.Test.Tests
             var testProjectDirectory = this.CopyAndRestoreVSTestDotNetCoreTestApp("5");
             string configuration = Environment.GetEnvironmentVariable("CONFIGURATION") ?? "Debug";
             string expectedError = Path.Combine(testProjectDirectory, "bin",
-                                   configuration, "netcoreapp2.0", "VSTestCore.dll");
+                                   configuration, "netcoreapp2.1", "VSTestCore.dll");
             expectedError = "The test source file " + "\"" + expectedError + "\"" + " provided was not found.";
 
             // Call test
             CommandResult result = new DotnetTestCommand()
                                        .WithWorkingDirectory(testProjectDirectory)
-                                       .ExecuteWithCapturedOutput("--no-build");
+                                       .ExecuteWithCapturedOutput("--no-build -v:m");
 
             // Verify
             if (!DotnetUnderTest.IsLocalized())
             {
+                result.StdOut.Should().NotContain("Restore");
                 result.StdErr.Should().Contain(expectedError);
             }
 
@@ -227,8 +228,8 @@ namespace Microsoft.DotNet.Cli.Test.Tests
             if (!DotnetUnderTest.IsLocalized())
             {
                 result.StdOut.Should().Contain("Total tests: 2. Passed: 1. Failed: 1. Skipped: 0.");
-                result.StdOut.Should().Contain("Passed   TestNamespace.VSTestTests.VSTestPassTest");
-                result.StdOut.Should().Contain("Failed   TestNamespace.VSTestTests.VSTestFailTest");
+                result.StdOut.Should().Contain("Passed   VSTestPassTest");
+                result.StdOut.Should().Contain("Failed   VSTestFailTest");
             }
 
             result.ExitCode.Should().Be(1);

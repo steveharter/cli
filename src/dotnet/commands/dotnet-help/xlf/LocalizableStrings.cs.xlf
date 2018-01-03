@@ -39,7 +39,7 @@
       </trans-unit>
       <trans-unit id="HelpDefinition">
         <source>Show help.</source>
-        <target state="needs-review-translation">Zobrazit nápovědu</target>
+        <target state="translated">Zobrazí nápovědu.</target>
         <note />
       </trans-unit>
       <trans-unit id="HostOptions">
@@ -243,8 +243,13 @@
         <note />
       </trans-unit>
       <trans-unit id="AdditionalDeps">
-        <source>Path to additonal deps.json file.</source>
+        <source>Path to additional deps.json file.</source>
         <target state="translated">Cesta k dodatečnému souboru deps.json.</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="StoreDefinition">
+        <source>Stores the specified assemblies in the runtime store.</source>
+        <target state="translated">Ukládá zadaná nastavení do úložiště runtime.</target>
         <note />
       </trans-unit>
     </body>

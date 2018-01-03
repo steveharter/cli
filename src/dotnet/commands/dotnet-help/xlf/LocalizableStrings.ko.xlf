@@ -39,7 +39,7 @@
       </trans-unit>
       <trans-unit id="HelpDefinition">
         <source>Show help.</source>
-        <target state="needs-review-translation">도움말 표시</target>
+        <target state="translated">도움말을 표시합니다.</target>
         <note />
       </trans-unit>
       <trans-unit id="HostOptions">
@@ -243,8 +243,13 @@
         <note />
       </trans-unit>
       <trans-unit id="AdditionalDeps">
-        <source>Path to additonal deps.json file.</source>
+        <source>Path to additional deps.json file.</source>
         <target state="translated">추가 deps.json 파일의 경로입니다.</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="StoreDefinition">
+        <source>Stores the specified assemblies in the runtime store.</source>
+        <target state="translated">지정된 어셈블리를 런타임 저장소에 저장합니다.</target>
         <note />
       </trans-unit>
     </body>

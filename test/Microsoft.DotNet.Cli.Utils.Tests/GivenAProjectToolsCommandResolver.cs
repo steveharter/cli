@@ -12,13 +12,14 @@ using NuGet.Frameworks;
 using NuGet.ProjectModel;
 using NuGet.Versioning;
 using Xunit;
+using Microsoft.DotNet.Tools.Tests.Utilities;
 
 namespace Microsoft.DotNet.Tests
 {
     public class GivenAProjectToolsCommandResolver : TestBase
     {
         private static readonly NuGetFramework s_toolPackageFramework =
-            FrameworkConstants.CommonFrameworks.NetCoreApp20;
+            NuGetFrameworks.NetCoreApp21;
 
         private const string TestProjectName = "AppWithToolDependency";
 
@@ -266,14 +267,8 @@ namespace Microsoft.DotNet.Tests
 
             var lockFile = new LockFileFormat().Read(lockFilePath);
 
-            var depsJsonFile = Path.Combine(
-                Path.GetDirectoryName(lockFilePath),
-                "dotnet-portable.deps.json");
-
-            if (File.Exists(depsJsonFile))
-            {
-                File.Delete(depsJsonFile);
-            }
+            // NOTE: We must not use the real deps.json path here as it will interfere with tests running in parallel.
+            var depsJsonFile = Path.GetTempFileName();
             File.WriteAllText(depsJsonFile, "temp");
 
             var projectToolsCommandResolver = SetupProjectToolsCommandResolver();
@@ -309,7 +304,7 @@ namespace Microsoft.DotNet.Tests
 
             result.Should().NotBeNull();
 
-            result.Args.Should().Contain("--fx-version 2.0.0");
+            result.Args.Should().Contain("--fx-version 2.1.0");
         }
 
         [Fact]
@@ -375,7 +370,7 @@ namespace Microsoft.DotNet.Tests
                 "dotnet-fallbackfoldertool",
                 "1.0.0",
                 "lib",
-                "netcoreapp2.0",
+                "netcoreapp2.1",
                 "dotnet-fallbackfoldertool.dll"));
         }
 
